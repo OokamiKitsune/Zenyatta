@@ -1,0 +1,14 @@
+# Ignore chroma database files - Generate these yourself by running the db-init script so
+# your LLM can use your own data.
+util/chroma_db/
+chroma_db/
+
+*.iml
+*.idea/
+
+# ignore docs file
+docs/*
+
+# ignore flagged files but keep the directory
+flagged/*
+
