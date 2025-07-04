@@ -4,6 +4,7 @@ from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 
 # Load all docs in the directory
+print("Loading documents from ../docs/...")
 loader = DirectoryLoader(
     "../docs/",
     glob="**/*",
@@ -11,6 +12,7 @@ loader = DirectoryLoader(
 )
 
 # Also load PDFs
+print("💾Loading PDF documents from ../docs/...")
 pdf_loader = DirectoryLoader(
     "../docs/",
     glob="**/*.pdf",
@@ -21,12 +23,14 @@ pdf_loader = DirectoryLoader(
 docs = loader.load() + pdf_loader.load()
 
 # Split into chunks
+print(f"💾Loaded {len(docs)} documents. Splitting into chunks...")
 splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 chunks = splitter.split_documents(docs)
 
 print(f"Loaded {len(chunks)} chunks.")
 
 # Embed and persist
+print("💾Generating embeddings and persisting to Chroma DB...")
 embedding = OllamaEmbeddings(model="deepseek-r1")
 
 db = Chroma.from_documents(
@@ -36,4 +40,4 @@ db = Chroma.from_documents(
 )
 
 db.persist()
-print("Vector DB persisted to ./chroma_db")
+print("✅Vector DB generated and persisted to ./chroma_db")
