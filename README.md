@@ -31,3 +31,13 @@ You can adapt this system for any domain: internal knowledge bases, SOP document
 ```bash
 pip install -r requirements.txt
 ```
+### 2️⃣ Drop your `.pdf` and `.txt` files into the `docs/` directory.
+
+### 2️⃣ Run the db-initialization script
+```bash
+python3 db-init.py
+```
+### 3️⃣ Start the web interface. Uses Gradio to serve the UI.
+```bash
+python3 ui.py
+```
