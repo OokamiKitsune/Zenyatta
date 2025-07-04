@@ -1,14 +1,16 @@
-# Ignore chroma database files - Generate these yourself by running the db-init script so
+# Ignore chroma database files - generate these yourself by running the db-init script so
 # your LLM can use your own data.
 util/chroma_db/
 chroma_db/
 
+# Ignore IDE/project files
 *.iml
 *.idea/
 
-# ignore docs file
+# Ignore everything in docs, but keep the folder
 docs/*
+!docs/.gitkeep
 
-# ignore flagged files but keep the directory
+# Ignore everything in flagged, but keep the folder
 flagged/*
-
+!flagged/.gitkeep
