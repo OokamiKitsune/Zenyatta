@@ -8,6 +8,7 @@ def init_nlp_resources():
     This function downloads necessary NLTK resources.
     """
     try :
+        print("Initializing NLP resources...")
         download("punkt", quiet=True)
         download("stopwords", quiet=True)
 
