@@ -1,3 +1,4 @@
+import os
 from langchain_community.document_loaders import DirectoryLoader, UnstructuredFileLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OllamaEmbeddings
@@ -5,7 +6,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.llms import Ollama
 from langchain.chains import RetrievalQA
 from init import init_nlp_resources
-import re
+from config import Config
 
 # We will keep these as module-level variables so they initialize only once
 qa = None
@@ -17,16 +18,16 @@ def initialize_retrieval_pipeline():
     init_nlp_resources()
 
     # Load documents from the directory
-    embedding = OllamaEmbeddings(model="deepseek-r1")
+    embedding = OllamaEmbeddings(model=Config.EMBEDDING_MODEL)
     db = Chroma(
-        persist_directory="./util/chroma_db",
+        persist_directory=Config.DATABASE_PATH,
         embedding_function=embedding,
     )
 
 
     retriever = db.as_retriever(search_kwargs={"k": 8})
 
-    llm = Ollama(model="deepseek-r1")
+    llm = Ollama(model=Config.LLM_MODEL)
 
     qa = RetrievalQA.from_chain_type(
         llm=llm,
