@@ -2,6 +2,13 @@ from langchain_community.document_loaders import DirectoryLoader, UnstructuredFi
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+from config import Config
+
 
 # Load all docs in the directory
 print("Loading documents from ../docs/...")
@@ -31,7 +38,7 @@ print(f"Loaded {len(chunks)} chunks.")
 
 # Embed and persist
 print("💾Generating embeddings and persisting to Chroma DB...")
-embedding = OllamaEmbeddings(model="deepseek-r1")
+embedding = OllamaEmbeddings(model=Config.EMBEDDING_MODEL)
 
 db = Chroma.from_documents(
     chunks,
@@ -40,4 +47,4 @@ db = Chroma.from_documents(
 )
 
 db.persist()
-print("✅Vector DB generated and persisted to ./chroma_db")
+print(f"✅Vector DB generated and persisted to {Config.DATABASE_PATH}")
