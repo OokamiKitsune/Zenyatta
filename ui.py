@@ -4,13 +4,14 @@ import gradio as gr
 from ask import initialize_retrieval_pipeline, answer_question
 from init import init_nlp_resources
 from util.update import update_knowledge
+from prompt_templates import prompt_template
 
 
 # Access environment variables for application configuration
 load_dotenv()
 app_name = os.getenv('APP_NAME')
 app_description = os.getenv('APP_DESCRIPTION')
-print(app_name)
+print(f'🏁 Starting {app_name}')
 
 # Initialize everything before starting the UI
 initialize_retrieval_pipeline()

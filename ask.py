@@ -1,15 +1,14 @@
-import os
-from langchain_community.document_loaders import DirectoryLoader, UnstructuredFileLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_community.llms import Ollama
 from langchain.chains import RetrievalQA
 from init import init_nlp_resources
+from prompt_templates.prompt_template import prompt_template
 from config import Config
 
 # We will keep these as module-level variables so they initialize only once
 qa = None
+
 
 def initialize_retrieval_pipeline():
     global qa
@@ -25,14 +24,15 @@ def initialize_retrieval_pipeline():
     )
 
 
-    retriever = db.as_retriever(search_kwargs={"k": 8})
+    retriever = db.as_retriever(search_kwargs={"k": 3})
 
     llm = Ollama(model=Config.LLM_MODEL)
 
     qa = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=retriever,
-        return_source_documents=True
+        return_source_documents=True,
+        chain_type_kwargs={"prompt": prompt_template}
     )
 
 def answer_question(query):
